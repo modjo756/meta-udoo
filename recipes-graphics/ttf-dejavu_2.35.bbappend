@@ -1,1 +1,1 @@
-FILESEXTRAPATHS_prepend := "${THISDIR}/ttf-dejavu:"
+FILESEXTRAPATHS_prepend := "${THISDIR}/ttf-fonts:"
