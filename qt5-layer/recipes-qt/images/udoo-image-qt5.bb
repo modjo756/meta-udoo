@@ -7,7 +7,7 @@
 # DISTRO_FEATURES_remove = "x11 wayland"
 
 
-DESCRIPTION = "A Qt 5.5.1+ image. Tailored for the UDOO boards"
+DESCRIPTION = "A Qt 5.7.0+ image. Tailored for the UDOO boards"
 
 IMAGE_FEATURES += "splash ssh-server-openssh package-management debug-tweaks"
 
@@ -20,7 +20,6 @@ UDOO_TOOLS = " \
 "
 
 QT_TOOLS = " \
-    qtbase-fonts \
     qtbase-plugins \
     qtbase-tools \
     qtdeclarative \
@@ -40,6 +39,10 @@ QT_TOOLS = " \
     qtscript \
     qt3d \
     qt3d-qmlplugins \
+    qtcanvas3d \
+    qtgraphicaleffects \
+    qtwebengine \
+    qtwebengine-qmlplugins \
     qtwebkit \
     qtwebkit-examples-examples \
     qtwebkit-qmlplugins \
@@ -49,7 +52,17 @@ QT_TOOLS = " \
     qtlocation-qmlplugins \
     cinematicexperience \
     qt5-env \
+    qtquick1 \
+    qtquick1-qmlplugins \
+    qtquick1-plugins \
+    qtserialport \
     qtserialbus \
+    qtcharts \
+    qtquickcontrols \
+    qtquickcontrols2 \
+    qtvirtualkeyboard \
+    qttools-plugins \
+    qtxmlpatterns \
 "
 
 GSTREAMER_TOOLS = " \
@@ -91,3 +104,4 @@ IMAGE_CMD_ext4_append () {
         # Label the disk rootfs
         e2label ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.ext4 rootfs
 }
+
