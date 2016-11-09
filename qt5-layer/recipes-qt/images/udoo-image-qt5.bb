@@ -9,7 +9,9 @@
 
 DESCRIPTION = "A Qt 5.7.0+ image. Tailored for the UDOO boards"
 
-IMAGE_FEATURES += "splash ssh-server-openssh package-management debug-tweaks"
+DEPENDS += "virtual/bootloader"
+
+IMAGE_FEATURES += "splash ssh-server-openssh package-management debug-tweaks dev-pkgs"
 
 UDOO_TOOLS = " \
     ${@bb.utils.contains("MACHINE_FEATURES", "usbhost", "packagegroup-base-usbhost", "", d)} \
@@ -68,6 +70,9 @@ QT_TOOLS = " \
 GSTREAMER_TOOLS = " \
     packagegroup-fsl-gstreamer1.0-full \
 "
+DEPENDS = " \
+    udev \
+"
 
 REMOTE_DEBUGGING = " \
     gdbserver \
@@ -98,10 +103,4 @@ inherit core-image
 
 # for populate_sdk to create a valid toolchain
 inherit populate_sdk_qt5
-
-# Needed by resize-rootfs
-IMAGE_CMD_ext4_append () {
-        # Label the disk rootfs
-        e2label ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.ext4 rootfs
-}
 
