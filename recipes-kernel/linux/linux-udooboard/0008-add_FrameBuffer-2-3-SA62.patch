@@ -1,0 +1,70 @@
+Subject: [PATCH] Add frame buffer 2 et 3 to Seco SBC A62
+Add buffer 2 and 3 from seco device tree
+Index: git/arch/arm/boot/dts/imx6qdl-seco_A62.dtsi
+===================================================================
+--- git.orig/arch/arm/boot/dts/imx6qdl-seco_A62.dtsi
++++ git/arch/arm/boot/dts/imx6qdl-seco_A62.dtsi
+@@ -21,6 +21,8 @@
+ 		mmc1 = &usdhc3;   /* uSD */  /* or make changes in files: a62_6dq.mk and fstab.freescale for appropriate mmcblkX*/  
+                 mxcfb0 = &mxcfb1;
+ 		mxcfb1 = &mxcfb2;
++		mxcfb2 = &mxcfb3;
++		mxcfb3 = &mxcfb4;
+ 	};
+ 
+ 	memory {
+@@ -121,6 +123,9 @@
+ 		model = "imx-audio-hdmi";
+ 		hdmi-controller = <&hdmi_audio>;
+ 	};
++/*  __________________________________________________________________________
++ * |____________________________ FRAME BUFFER ________________________________|
++ */
+ 
+ 	mxcfb1: fb@0 {
+ 		compatible = "fsl,mxc_sdc_fb";
+@@ -143,6 +148,27 @@
+ 		late_init = <0>;
+ 		status = "disabled";
+ 	};	
++
++	mxcfb3: fb@2 {
++		compatible = "fsl,mxc_sdc_fb";
++		disp_dev = "lcd";
++		interface_pix_fmt = "RGB565";
++		mode_str ="CLAA-WVGA";
++		default_bpp = <16>;
++		int_clk = <0>;
++		late_init = <0>;
++		status = "disabled";
++	};
++
++	mxcfb4: fb@3 {
++		compatible = "fsl,mxc_sdc_fb";
++		disp_dev = "ldb";
++		interface_pix_fmt = "RGB666";
++		default_bpp = <16>;
++		int_clk = <0>;
++		late_init = <0>;
++		status = "disabled";
++	};
+ 
+ 	backlight {
+ 		compatible = "pwm-backlight";
+@@ -676,6 +702,12 @@
+ 	status = "okay";
+ };
+ 
++/*  __________________________________________________________________________
++ * |                                                                          |
++ * |                                 VIDEO OUTPUT                             |
++ * |__________________________________________________________________________|
++ */
++
+ &ldb {
+ 	status = "okay";
+ 
+
+ 
+
+

@@ -1,0 +1,59 @@
+Subject: [PATCH] Add clock to SBC A62
+This add seco clock define in udoo device tree
+Index: git/arch/arm/boot/dts/imx6qdl-seco_A62.dtsi
+===================================================================
+--- git.orig/arch/arm/boot/dts/imx6qdl-seco_A62.dtsi
++++ git/arch/arm/boot/dts/imx6qdl-seco_A62.dtsi	
+@@ -26,6 +26,10 @@
+ 	memory {
+ 		reg = <0x10000000 0x40000000>;
+ 	};
++	
++/*  __________________________________________________________________________
++ * |_______________________________ CLOCKING _________________________________|
++ */
+ 
+ 	clocks {
+ 		codec_osc: anaclk2 {
+@@ -33,6 +37,11 @@
+ 			#clock-cells = <0>;
+ 			clock-frequency = <24576000>;
+ 		};
++	};
++
++	external_clocks {
++		clocks =  <&clks IMX6QDL_CLK_CKO2>;
++			#clock-cells = <0>;
+ 	};
+ 
+ 	regulators {
+@@ -46,6 +55,8 @@
+ 			regulator-name = "usb_otg_vbus";
+ 			regulator-min-microvolt = <5000000>;
+ 			regulator-max-microvolt = <5000000>;
++			gpio = <&gpio3 22 0>;
++			enable-active-high;
+ 		};
+ 
+ 		reg_usb_h1_vbus: regulator@1 {
+@@ -184,6 +195,18 @@
+ 	
+ };
+ 
++&clks {
++	assigned-clocks = <&clks IMX6QDL_PLL4_BYPASS_SRC>,
++			  <&clks IMX6QDL_PLL4_BYPASS>,
++			  <&clks IMX6QDL_CLK_PLL4_POST_DIV>;
++
++	assigned-clock-parents = <&clks IMX6QDL_CLK_LVDS2_IN>,
++				<&clks IMX6QDL_PLL4_BYPASS_SRC>;
++	assigned-clock-rates = <0>, <0>, <24576000>;
++};
++
++
++
+ /*  __________________________________________________________________________
+  * |                                                                          |
+  * |                                    IOMUX                                 |
+
+

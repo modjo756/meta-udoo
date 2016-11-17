@@ -1,0 +1,35 @@
+Subject: [PATCH] Add UART5 on Seco SBC A62
+This enable UART5 interface on Seco A62
+Index: git/arch/arm/boot/dts/imx6qdl-seco_A62.dtsi
+===================================================================
+--- git.orig/arch/arm/boot/dts/imx6qdl-seco_A62.dtsi
++++ git/arch/arm/boot/dts/imx6qdl-seco_A62.dtsi
+@@ -302,6 +302,13 @@
+ 				MX6QDL_PAD_EIM_D27__UART2_RX_DATA	0x1b0b1   
+ 			>;
+ 		};
++		/* UART5 */
++		pinctrl_uart5: uart5grp {
++			fsl,pins = <
++				MX6QDL_PAD_CSI0_DAT14__UART5_TX_DATA	     0x1b0b1
++				MX6QDL_PAD_CSI0_DAT15__UART5_RX_DATA	     0x1b0b1
++			>;
++		};
+ 
+ 
+ /*  __________________________________________________________________________
+@@ -497,6 +504,12 @@
+  * |                                    UART                                  |
+  * |__________________________________________________________________________|
+  */
++
++&uart5 {
++	pinctrl-names  = "default";
++	pinctrl-0      = <&pinctrl_uart5>;
++	status         = "okay";
++};
+ &uart2 {
+ 	pinctrl-names = "default";
+ 	pinctrl-0 = <&pinctrl_uart2>;
+
+

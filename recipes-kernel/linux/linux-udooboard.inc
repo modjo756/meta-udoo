@@ -27,6 +27,12 @@ SRC_URI = "${UDOOBOARD_GITHUB_MIRROR};branch=${SRCBRANCH} \
            file://0003-avoid-endless-loop.patch \
            file://0005-add-support-for-gcc6.patch \
            file://0006-enable-eth-SA62.patch \
+           file://0007-add_external_clock-SA62.patch \
+           file://0008-add_FrameBuffer-2-3-SA62.patch \
+           file://0009-add_CAN-SA62.patch \
+           file://0010-add_SPI-SA62.patch \
+           file://0011-add_I2C-SA62.patch \
+           file://0012-add_UART5-SA62.patch \
            file://defconfig \
 "
 SRC_URI_append_udooqdl = "file://0010-default-bpp-to-16.patch \

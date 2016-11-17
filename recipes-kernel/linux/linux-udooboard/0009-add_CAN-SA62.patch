@@ -1,0 +1,79 @@
+Subject: [PATCH] Add CAN1 on Seco SBC A62
+This active flexcan1 on secoA62
+Index: git/arch/arm/boot/dts/imx6qdl-seco_A62.dtsi
+===================================================================
+--- git.orig/arch/arm/boot/dts/imx6qdl-seco_A62.dtsi
++++ git/arch/arm/boot/dts/imx6qdl-seco_A62.dtsi	
+@@ -261,8 +261,8 @@
+ 				MX6QDL_PAD_NANDF_WP_B__GPIO6_IO09 	0x80000000	/*GPIO*/
+ 				MX6QDL_PAD_GPIO_18__GPIO7_IO13	  	0x80000000	/*GPIO*/
+ 				MX6QDL_PAD_GPIO_19__GPIO4_IO05	  	0x80000000	/*GPIO*/				
+-				MX6QDL_PAD_GPIO_7__GPIO1_IO07	  	0x80000000	/*GPIO*/
+-				MX6QDL_PAD_GPIO_8__GPIO1_IO08	  	0x80000000      /*GPIO*/
++				//MX6QDL_PAD_GPIO_7__GPIO1_IO07	  	0x80000000	/*FLEXCAN1 TX*/
++				//MX6QDL_PAD_GPIO_8__GPIO1_IO08	  	0x80000000      /*FLEXCAN1 RX*/
+ 
+ 				MX6QDL_PAD_GPIO_0__GPIO1_IO00     	0x80000000    	/* EXP_GPIO_27  */
+ 				MX6QDL_PAD_CSI0_DAT4__GPIO5_IO22  	0x80000000    	/* EXP_GPIO_28  */
+@@ -460,6 +460,16 @@
+ 				MX6QDL_PAD_EIM_EB3__GPIO2_IO31               0x1f071
+ 			>;
+ 		};
++
++/*  __________________________________________________________________________
++ * |________________________________ CAN ___________________________________|
++ */
++		pinctrl_flexcan1: flexcan1grp {
++			fsl,pins = <
++				MX6QDL_PAD_GPIO_7__FLEXCAN1_TX		0x80000000
++				MX6QDL_PAD_GPIO_8__FLEXCAN1_RX		0x80000000
++			>;
++		};
+ 	};
+ };
+ 
+@@ -476,6 +486,7 @@
+ /*  __________________________________________________________________________
+  * |__________________________________________________________________________|
+  */
++
+ 
+ /*  __________________________________________________________________________
+  * |                                                                          |
+@@ -520,6 +531,7 @@
+ 	pinctrl-0 = <&pinctrl_ecspi1>;
+ 	status = "okay";
+ 
++
+ 	flash: m25p80@0 {
+ 	
+ 		#address-cells = <1>;
+@@ -534,6 +546,8 @@
+ 			reg = <0x00000000 0x00004000>;
+ 		};
+        };
++
++
+ };
+ 
+ &ecspi3 {
+@@ -699,6 +713,14 @@
+ };
+ 
+ /*  __________________________________________________________________________
++ * |__________________________________CAN________________________________________|
++ */
++&flexcan1 {
++	pinctrl-names = "default";
++	pinctrl-0 = <&pinctrl_flexcan1>;
++	status = "okay";
++};
++/*  __________________________________________________________________________
+  * |                                                                          |
+  * |                                 VIDEO OUTPUT                             |
+  * |__________________________________________________________________________|
+
+
+
+ 
+

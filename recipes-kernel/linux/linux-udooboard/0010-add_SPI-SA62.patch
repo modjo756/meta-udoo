@@ -1,0 +1,54 @@
+Subject: [PATCH] Add SPI on Seco SBC A62
+This enable spi0.0 in user space for seco A62
+Index: git/arch/arm/boot/dts/imx6qdl-seco_A62.dtsi
+===================================================================
+--- git.orig/arch/arm/boot/dts/imx6qdl-seco_A62.dtsi
++++ git/arch/arm/boot/dts/imx6qdl-seco_A62.dtsi
+@@ -23,6 +23,7 @@
+ 		mxcfb1 = &mxcfb2;
+ 		mxcfb2 = &mxcfb3;
+ 		mxcfb3 = &mxcfb4;
++		spi0 = &ecspi2;
+ 	};
+ 
+ 	memory {
+@@ -337,6 +338,17 @@
+ 			>;
+ 		};
+ 		
++		pinctrl_ecspi2: ecspi2grp {
++			fsl,pins = <
++				MX6QDL_PAD_EIM_OE__ECSPI2_MISO           0x100b1
++				MX6QDL_PAD_EIM_CS1__ECSPI2_MOSI          0x100b1
++				MX6QDL_PAD_EIM_CS0__ECSPI2_SCLK          0x100b1
++				/*  CS SPI 2  */
++				MX6QDL_PAD_EIM_D29__GPIO3_IO29           0x80000000
++
++			>;
++		};
++		
+ 		pinctrl_ecspi3: ecspi3grp {
+ 			fsl,pins = <
+ 			        MX6QDL_PAD_DISP0_DAT2__ECSPI3_MISO      0x100b1
+@@ -550,6 +562,20 @@
+ 
+ };
+ 
++&ecspi2 {
++	fsl,spi-num-chipselects = <1>;
++	cs-gpios = <&gpio3 29  0>;
++	pinctrl-names = "default";
++	pinctrl-0 = <&pinctrl_ecspi2>;
++	status = "okay";
++	spidev0: spi@0 {
++		compatible = "spidev";
++		reg = <0>;
++		spi-max-frequency = <2000000>;
++	};
++};
++
++
+ &ecspi3 {
+ 	fsl,spi-num-chipselects = <1>;
+ 	cs-gpios = <&gpio4 24  0>;
+
