@@ -33,7 +33,7 @@ SRC_URI = "${UDOOBOARD_GITHUB_MIRROR};branch=${SRCBRANCH} \
            file://0010-add_SPI-SA62.patch \
            file://0011-add_I2C-SA62.patch \
            file://0012-add_UART5-SA62.patch \
-           file://0013-lvds15_changeConf.patch \
+           file://0013-lvds15_changeConf_SA62.patch \
            file://defconfig \
 "
 SRC_URI_append_udooqdl = "file://0010-default-bpp-to-16.patch \
@@ -42,4 +42,6 @@ SRC_URI_append_udooqdl = "file://0010-default-bpp-to-16.patch \
 SRC_URI_append_udooneo = " \
     ${@base_conditional("ENABLE_CAN_BUS", "1", "file://0001-Enable-FlexCAN-interfaces-for-UDOO-Neo.patch", "", d)} \
     ${@base_conditional("ENABLE_SPI_BUS", "1", "file://0020-udooneo-enable-ecspi2.patch", "", d)} \
+    ${@base_conditional("ENABLE_UART6", "1", "file://0021-Enable-Uart6-udooneo.patch", "", d)} \
+    ${@base_conditional("ENABLE_UART6", "1", "file://0022-udooneo-Uart6-dma.patch", "", d)} \
 "

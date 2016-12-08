@@ -90,3 +90,15 @@ export PATH=${PATH}:/usr/bin/qt5
 # necessary to use EGL with the framebuffer and so no plugins should
 # be loaded.
 
+# export for egls platform
+export QT_QPA_PLATFORM=eglfs
+
+#size of 7" screen in mmilimeters
+#export QT_QPA_EGLFS_PHYSICAL_HEIGHT=91
+#export QT_QPA_EGLFS_PHYSICAL_WIDTH=152
+
+#export for touch 7 inch neo
+#export QT_QPA_EVDEV_TOUCHSCREEN_PARAMETERS=/dev/input/event1:inverty
+
+#define a new path for the font in qt5.7
+export QT_QPA_FONTDIR=/usr/share/fonts/truetype

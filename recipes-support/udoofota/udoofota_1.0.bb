@@ -11,7 +11,7 @@ INITSCRIPT_NAME = "udoofota"
 INITSCRIPT_PARAMS = "defaults 30"
 
 
-SRCREV = "bb638a148fa768e462ae058f64521d6a807fc44f"
+SRCREV = "52e6b3121c51d18fd1fec3a3ce2c4d3b410b01f4"
 SRC_URI = "git://github.com/UDOOboard/udoofota.git \
            file://0001-Allow-gcc-overwrite.patch \
            file://init \

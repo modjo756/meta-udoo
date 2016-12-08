@@ -1,0 +1,28 @@
+Index: git/arch/arm/boot/dts/imx6sx-udoo-neo-externalpins.dtsi
+===================================================================
+--- git.orig/arch/arm/boot/dts/imx6sx-udoo-neo-externalpins.dtsi
++++ git/arch/arm/boot/dts/imx6sx-udoo-neo-externalpins.dtsi
+@@ -28,10 +28,10 @@
+ 				MX6SX_PAD_CSI_DATA01__GPIO1_IO_15		0x80000000	// {{external-gpio-27}}
+ 				MX6SX_PAD_CSI_DATA02__GPIO1_IO_16		0x80000000	// {{external-gpio-28}}
+ 				MX6SX_PAD_CSI_DATA03__GPIO1_IO_17		0x80000000	// {{external-gpio-29}}
+-				MX6SX_PAD_CSI_DATA04__GPIO1_IO_18		0x80000000	// {{external-gpio-30}}
+-				MX6SX_PAD_CSI_DATA05__GPIO1_IO_19		0x80000000	// {{external-gpio-31}}
+-				MX6SX_PAD_CSI_DATA06__GPIO1_IO_20		0x80000000	// {{external-gpio-32}}
+-				MX6SX_PAD_CSI_DATA07__GPIO1_IO_21		0x80000000	// {{external-gpio-33}}
++				//MX6SX_PAD_CSI_DATA04__GPIO1_IO_18		0x80000000	// {{external-gpio-30}}
++				//MX6SX_PAD_CSI_DATA05__GPIO1_IO_19		0x80000000	// {{external-gpio-31}}
++				//MX6SX_PAD_CSI_DATA06__GPIO1_IO_20		0x80000000	// {{external-gpio-32}}
++				//MX6SX_PAD_CSI_DATA07__GPIO1_IO_21		0x80000000	// {{external-gpio-33}}
+ 				
+ 				//MX6SX_PAD_USB_H_STROBE__GPIO7_IO_11	0x80000000	// {{external-gpio-34}}
+ 				//MX6SX_PAD_USB_H_DATA__GPIO7_IO_10		0x80000000	// {{external-gpio-35}}
+@@ -191,7 +191,7 @@
+ 	pinctrl-names = "default";
+ 	pinctrl-0 = <&pinctrl_uart6>;
+ 	fsl,uart-has-rtscts;
+-	status = "disabled";
++	status = "okay";
+ };
+ 
+ &i2c2 {
