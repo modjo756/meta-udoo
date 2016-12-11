@@ -4,7 +4,7 @@
 # Set the screen connected to the board
 # video_output=hdmi|lvds7|lvds15|disabled
 # any other value (or if the variable is not specified) will default to "hdmi"
-video_output=lvds7
+video_output=lvds15
 
 # Set the video output mode for the different screens
 # This is according to the following webpage
@@ -14,10 +14,10 @@ video_output=lvds7
 #video=fbmem=24M video=mxcfb0:dev=hdmi,1920x1080M@60,bpp=32
 
 # 15" LVDS Panel
-#video=fbmem=24M video=mxcfb0:dev=ldb,LDB-WXGA,if=RGB24,bpp=32
+video=fbmem=24M video=mxcfb0:dev=ldb,LDB-1280P60,if=RGB24,bpp=32
 
 # 7" LVDS Panel
-video=fbmem=24M video=mxcfb0:dev=ldb,LDB-WVGA,if=RGB666,bpp=32
+#video=fbmem=24M video=mxcfb0:dev=ldb,LDB-WVGA,if=RGB666,bpp=32
 
 # Select weather to use custom device tree or not
 # Put the custom device tree file in the folder "dts-overlay" in your boot partition

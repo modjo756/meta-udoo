@@ -28,7 +28,7 @@ SRC_URI = "${UDOOBOARD_GITHUB_MIRROR};branch=${SRCBRANCH} \
            file://0005-add-support-for-gcc6.patch \
            file://defconfig \
 "
-SRC_URI_append_udooqdl = "file://0010-default-bpp-to-16.patch \
+SRC_URI_append_udooqdl = "file://001-lvds15_changeConfTo10.patch \
 "
 
 SRC_URI_append_udooneo = " \
@@ -37,16 +37,13 @@ SRC_URI_append_udooneo = " \
     ${@base_conditional("ENABLE_UART6", "1", "file://0021-Enable-Uart6-udooneo.patch", "", d)} \
     ${@base_conditional("ENABLE_UART6", "1", "file://0022-udooneo-Uart6-dma.patch", "", d)} \
 "
-SRC_URI_append_secosbca62 = "file://0006-enable-eth-SA62.patch \
-           file://0007-add_external_clock-SA62.patch \
-           file://0008-add_FrameBuffer-2-3-SA62.patch \
-           file://0009-add_CAN-SA62.patch \
-           file://0010-add_SPI-SA62.patch \
-           file://0011-add_I2C-SA62.patch \
-           file://0012-add_UART5-SA62.patch \
-           file://0013-lvds15_changeConf_SA62.patch \
-           file://0014-enable-goodix928Touch.patch \
-           file://0015-devres_from_seco.patch \
-           file://0016-goodix-driver-Kconfig.patch \
-           file://0017-goodix-driver.patch \
+SRC_URI_append_secosbca62 = "file://0001-enable-eth-SA62.patch \
+           file://0002-add_external_clock-SA62.patch \
+           file://0003-add_FrameBuffer-2-3-SA62.patch \
+           file://0004-add_CAN-SA62.patch \
+           file://0005-add_SPI-SA62.patch \
+           file://0006-add_I2C-SA62.patch \
+           file://0007-add_UART5-SA62.patch \
+           file://0008-lvds15_changeConf_SA62.patch \
+           file://0009-support-Goodix-Touchscreens.patch \
 "

@@ -1,3 +1,175 @@
+Index: git/arch/arm/boot/dts/imx6qdl-seco_A62.dtsi
+===================================================================
+--- git.orig/arch/arm/boot/dts/imx6qdl-seco_A62.dtsi
++++ git/arch/arm/boot/dts/imx6qdl-seco_A62.dtsi
+@@ -333,17 +333,24 @@
+ 			fsl,pins = <
+ 				MX6QDL_PAD_GPIO_5__I2C3_SCL             0x4001b8b1
+ 				MX6QDL_PAD_GPIO_6__I2C3_SDA             0x4001b8b1
+-
+-				MX6QDL_PAD_SD2_DAT2__GPIO1_IO13   	0x80000000       /*touch interrupt*/ 
+-				MX6QDL_PAD_SD2_DAT0__GPIO1_IO15   	0x80000000       /* touch reset */ 
+ 			>;
+ 		};
+ /*  __________________________________________________________________________
++* |________________________________ TOUCH ___________________________________|
++*/
++		pinctrl_gt928: gt928grp {
++			fsl,pins = <
++				MX6QDL_PAD_SD2_DAT2__GPIO1_IO13              0x80000000		// Touch Interrupt
++				MX6QDL_PAD_SD2_DAT0__GPIO1_IO15              0x80000000		// Touch Reset
++                        >;
++ 		};
++/*  __________________________________________________________________________
+  * |_________________________________ SPI ____________________________________|
+  */
+ 		pinctrl_ecspi1: ecspi1grp {
+ 			fsl,pins = <
+-				MX6QDL_PAD_EIM_D17__ECSPI1_MISO         0x100b1   
++				MX6QDL_PAD_EIM_D17__ECSPI1_MISO         0x100b1
++				
+ 				MX6QDL_PAD_EIM_D18__ECSPI1_MOSI         0x100b1  
+ 				MX6QDL_PAD_EIM_D16__ECSPI1_SCLK         0x100b1  
+ 				/*  CS SPI 1  */
+@@ -650,13 +657,26 @@
+ 		mclk_source = <0>;
+ 	};
+ 
+-	touchscreen@55 {
+- 		compatible = "sitronix,st1232";
+- 		reg = <0x55>;
+- 		interrupt-parent = <&gpio1>;
+- 		interrupts = <13 IRQ_TYPE_LEVEL_LOW>;
+- 		gpios = <&gpio1 15 GPIO_ACTIVE_LOW>;
+- 	};
++	//touchscreen@55 {
++ 		//compatible = "sitronix,st1232";
++ 		//reg = <0x55>;
++                //pinctrl-names    = "default";
++		//pinctrl-0        = <&pinctrl_st1232>;
++ 		//interrupt-parent = <&gpio1>;
++ 		//interrupts = <13 IRQ_TYPE_LEVEL_LOW>;
++ 		//gpios = <&gpio1 15 GPIO_ACTIVE_LOW>;
++ 	//};
++        gt928@5d {
++		compatible       = "goodix,gt928";
++		reg              = <0x5d>;
++                touchscreen-inverted-y;
++		pinctrl-names    = "default";
++		pinctrl-0        = <&pinctrl_gt928>;
++		interrupt-parent = <&gpio1>;
++		interrupts       = <13 IRQ_TYPE_LEVEL_LOW>;
++		irq-gpio         = <&gpio1 13 GPIO_ACTIVE_LOW>;
++		reset-gpio       = <&gpio1 15 GPIO_ACTIVE_LOW>;
++	};
+ };
+ /*  __________________________________________________________________________
+  * |__________________________________________________________________________|
+Index: git/drivers/base/devres.c
+===================================================================
+--- git.orig/drivers/base/devres.c
++++ git/drivers/base/devres.c
+@@ -297,10 +297,10 @@ void * devres_get(struct device *dev, vo
+ 	if (!dr) {
+ 		add_dr(dev, &new_dr->node);
+ 		dr = new_dr;
+-		new_res = NULL;
++		new_dr = NULL;
+ 	}
+ 	spin_unlock_irqrestore(&dev->devres_lock, flags);
+-	devres_free(new_res);
++	devres_free(new_dr);
+ 
+ 	return dr->data;
+ }
+@@ -791,6 +791,61 @@ void * devm_kmalloc(struct device *dev,
+ EXPORT_SYMBOL_GPL(devm_kmalloc);
+ 
+ /**
++ * devm_kvasprintf - Allocate resource managed space
++ *                      for the formatted string.
++ * @dev: Device to allocate memory for
++ * @gfp: the GFP mask used in the devm_kmalloc() call when
++ *       allocating memory
++ * @fmt: the formatted string to duplicate
++ * @ap: the list of tokens to be placed in the formatted string
++ * RETURNS:
++ * Pointer to allocated string on success, NULL on failure.
++ */
++char *devm_kvasprintf(struct device *dev, gfp_t gfp, const char *fmt,
++                      va_list ap)
++{
++        unsigned int len;
++        char *p;
++        va_list aq;
++
++        va_copy(aq, ap);
++        len = vsnprintf(NULL, 0, fmt, aq);
++        va_end(aq);
++
++        p = devm_kmalloc(dev, len+1, gfp);
++        if (!p)
++                return NULL;
++
++        vsnprintf(p, len+1, fmt, ap);
++
++        return p;
++}
++EXPORT_SYMBOL(devm_kvasprintf);
++
++/**
++ * devm_kasprintf - Allocate resource managed space
++ *              and copy an existing formatted string into that
++ * @dev: Device to allocate memory for
++ * @gfp: the GFP mask used in the devm_kmalloc() call when
++ *       allocating memory
++ * @fmt: the string to duplicate
++ * RETURNS:
++ * Pointer to allocated string on success, NULL on failure.
++ */
++char *devm_kasprintf(struct device *dev, gfp_t gfp, const char *fmt, ...)
++{
++        va_list ap;
++        char *p;
++
++        va_start(ap, fmt);
++        p = devm_kvasprintf(dev, gfp, fmt, ap);
++        va_end(ap);
++
++        return p;
++}
++EXPORT_SYMBOL_GPL(devm_kasprintf);
++
++/**
+  * devm_kfree - Resource-managed kfree
+  * @dev: Device this memory belongs to
+  * @p: Memory to free
+Index: git/drivers/input/touchscreen/Kconfig
+===================================================================
+--- git.orig/drivers/input/touchscreen/Kconfig
++++ git/drivers/input/touchscreen/Kconfig
+@@ -296,7 +296,8 @@ config TOUCHSCREEN_GOODIX
+ 	help
+ 	  Say Y here if you have the Goodix touchscreen (such as one
+ 	  installed in Onda v975w tablets) connected to your
+-	  system.
++	  system.It also supports 5-finger chip models, which can be
++          found on ARM tablets, like Wexler TAB7200 and MSI Primo73.
+ 
+ 	  If unsure, say N.
+ 
+Index: git/drivers/input/touchscreen/Makefile
+===================================================================
+--- git.orig/drivers/input/touchscreen/Makefile
++++ git/drivers/input/touchscreen/Makefile
+@@ -34,6 +34,7 @@ obj-$(CONFIG_TOUCHSCREEN_ELO)		+= elo.o
+ obj-$(CONFIG_TOUCHSCREEN_ELAN)      += elan_ts.o
+ obj-$(CONFIG_TOUCHSCREEN_EGALAX)	+= egalax_ts.o
+ obj-$(CONFIG_TOUCHSCREEN_FUJITSU)	+= fujitsu_ts.o
++obj-$(CONFIG_TOUCHSCREEN_GOODIX) 	+= goodix.o
+ obj-$(CONFIG_TOUCHSCREEN_ILI210X)	+= ili210x.o
+ obj-$(CONFIG_TOUCHSCREEN_INEXIO)	+= inexio.o
+ obj-$(CONFIG_TOUCHSCREEN_INTEL_MID)	+= intel-mid-touch.o
 Index: git/drivers/input/touchscreen/goodix.c
 ===================================================================
 --- git.orig/drivers/input/touchscreen/goodix.c
@@ -789,7 +961,7 @@ Index: git/drivers/input/touchscreen/goodix.c
 +static int goodix_configure_dev(struct goodix_ts_data *ts)
 +{
 +        int error;
-+	struct i2c_client *client = ts->client;
++	struct i2c_client *client = &ts->client;
  
 -	ts->input_dev = devm_input_allocate_device(&ts->client->dev);
 -	if (!ts->input_dev) {
@@ -1188,3 +1360,18 @@ Index: git/drivers/input/touchscreen/goodix.c
  };
  module_i2c_driver(goodix_ts_driver);
  
+Index: git/include/linux/device.h
+===================================================================
+--- git.orig/include/linux/device.h
++++ git/include/linux/device.h
+@@ -609,6 +609,10 @@ extern int devres_release_group(struct d
+ 
+ /* managed devm_k.alloc/kfree for device drivers */
+ extern void *devm_kmalloc(struct device *dev, size_t size, gfp_t gfp);
++extern char *devm_kvasprintf(struct device *dev, gfp_t gfp, const char *fmt,
++                             va_list ap);
++extern char *devm_kasprintf(struct device *dev, gfp_t gfp,
++                            const char *fmt, ...);
+ static inline void *devm_kzalloc(struct device *dev, size_t size, gfp_t gfp)
+ {
+ 	return devm_kmalloc(dev, size, gfp | __GFP_ZERO);

@@ -9,7 +9,7 @@
 # Set the screen connected to the board
 # video_output=hdmi|lvds7|lvds15|disabled
 # any other value (or if the variable is not specified) will default to "hdmi"
-#video_output=hdmi
+video_output=lvds7
 
 # Select weather to use custom device tree or not
 # Put the custom device tree file in the folder "dts-overlay" in your boot partition
