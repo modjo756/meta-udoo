@@ -961,7 +961,7 @@ Index: git/drivers/input/touchscreen/goodix.c
 +static int goodix_configure_dev(struct goodix_ts_data *ts)
 +{
 +        int error;
-+	struct i2c_client *client = &ts->client;
++	struct i2c_client *client = ts->client;
  
 -	ts->input_dev = devm_input_allocate_device(&ts->client->dev);
 -	if (!ts->input_dev) {
