@@ -11,7 +11,7 @@ video_output=lvds15
 # http://www.udoo.org/docs/Troubleshooting/How_Do_I_Set_Up_My_LVDS_Panel.html
 
 # HDMI
-#video=fbmem=24M video=mxcfb0:dev=hdmi,1920x1080M@60,bpp=32
+video=fbmem=24M video=mxcfb0:dev=hdmi,1920x1080M@60,bpp=32
 
 # 15" LVDS Panel
 video=fbmem=24M video=mxcfb0:dev=ldb,LDB-1280P60,if=RGB24,bpp=32
