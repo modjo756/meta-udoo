@@ -29,6 +29,7 @@ SRC_URI = "${UDOOBOARD_GITHUB_MIRROR};branch=${SRCBRANCH} \
            file://defconfig \
 "
 SRC_URI_append_udooqdl = "file://001-lvds15_changeConfTo10.patch \
+           file://0006-add-support-goodix-touchscreen.patch \
 "
 
 SRC_URI_append_udooneo = " \
