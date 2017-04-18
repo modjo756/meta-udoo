@@ -45,5 +45,5 @@ SRC_URI_append_secosbca62 = "file://0001-enable-eth-SA62.patch \
            file://0006-add_I2C-SA62.patch \
            file://0007-add_UART5-SA62.patch \
            file://0008-lvds15_changeConf_SA62.patch \
-           file://0009-support-Goodix-Touchscreens.patch \
+           ${@base_conditional("ENABLE_TOUCH_GOODIX", "1","file://0009-support-Goodix-Touchscreens.patch", "", d)} \
 "

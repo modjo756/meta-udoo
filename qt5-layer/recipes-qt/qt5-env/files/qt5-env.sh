@@ -94,15 +94,15 @@ export PATH=${PATH}:/usr/bin/qt5
 export QT_QPA_PLATFORM=eglfs
 
 #size of 7" screen in mmillimeters
-#export QT_QPA_EGLFS_PHYSICAL_HEIGHT=91
-#export QT_QPA_EGLFS_PHYSICAL_WIDTH=152
+export QT_QPA_EGLFS_PHYSICAL_HEIGHT=91
+export QT_QPA_EGLFS_PHYSICAL_WIDTH=152
 
 #size of 10.1" screen (sysA62-10) in mmillimeters
-export QT_QPA_EGLFS_PHYSICAL_HEIGHT=136
-export QT_QPA_EGLFS_PHYSICAL_WIDTH=217
+#export QT_QPA_EGLFS_PHYSICAL_HEIGHT=136
+#export QT_QPA_EGLFS_PHYSICAL_WIDTH=217
 
 #export for touch 7 inch neo
-export QT_QPA_EVDEV_TOUCHSCREEN_PARAMETERS=/dev/input/touchscreen0
+export QT_QPA_EVDEV_TOUCHSCREEN_PARAMETERS=/dev/input/event0:rotate=180
 
 #define a new path for the font in qt5.7
 export QT_QPA_FONTDIR=/usr/share/fonts/truetype
