@@ -4,7 +4,7 @@
 include linux-udooboard.inc
 require recipes-kernel/linux/linux-dtb.inc
 
-SRCREV = "77702fa515d1276bc0a1e7b62e326937f8451f37"
+SRCREV = "c460cad2f35c9e8d1d567db631ffead68057566d"
 
 # This hack is needed because of the
 # backports subdir in the kernel source

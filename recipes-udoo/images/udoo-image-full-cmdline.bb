@@ -16,7 +16,7 @@ UDOO_EXTRA_INSTALL = " \
     i2c-tools \
     dtc \
     mmc-utils \
-    ${@base_conditional("ENABLE_CAN_BUS", "1", "canutils", "", d)} \
+    ${@base_conditional("ENABLE_CAN_BUS", "1", "can-utils libsocketcan", "", d)} \
 "
 
 IMAGE_INSTALL = "\

@@ -1,0 +1,63 @@
+Index: git/arch/arm/boot/dts/imx6sx-udoo-neo-externalpins.dtsi
+===================================================================
+--- git.orig/arch/arm/boot/dts/imx6sx-udoo-neo-externalpins.dtsi
++++ git/arch/arm/boot/dts/imx6sx-udoo-neo-externalpins.dtsi
+@@ -7,7 +7,6 @@
+  *
+  */
+  
+-
+ &iomuxc {
+     imx6x-udoo-neo {
+         // External Pinout GPIOs
+@@ -36,7 +35,7 @@
+ 				//MX6SX_PAD_USB_H_STROBE__GPIO7_IO_11	0x80000000	// {{external-gpio-34}}
+ 				//MX6SX_PAD_USB_H_DATA__GPIO7_IO_10		0x80000000	// {{external-gpio-35}}
+ 				MX6SX_PAD_SD4_DATA3__GPIO6_IO_17		0x80000000	// {{external-gpio-36}}
+-				MX6SX_PAD_SD4_DATA2__GPIO6_IO_16		0x80000000	// {{external-gpio-37}}
++				//MX6SX_PAD_SD4_DATA2__GPIO6_IO_16		0x80000000	// {{external-gpio-37}}
+ 				//MX6SX_PAD_SD4_DATA1__GPIO6_IO_15		0x80000000	// {{external-gpio-38}}
+ 				//MX6SX_PAD_SD4_DATA0__GPIO6_IO_14		0x80000000	// {{external-gpio-39}}
+ 				
+@@ -168,11 +167,21 @@
+ 	pinctrl-0 = <&pinctrl_ecspi2>;
+ 	status = "okay";
+ 
+-	spidev0: spi@0 {
+-		compatible = "spidev";
+-		reg = <0>;
+-		spi-max-frequency = <2000000>;
+-	};
++	//spidev0: spi@0 {
++		//compatible = "spidev";
++		//reg = <0>;
++		//spi-max-frequency = <2000000>;
++	//};
++        can2: mcp2515@0 {
++
++        compatible = "microchip,mcp2515";
++        reg = <0>;
++        spi-max-frequency = <1000000>;
++        clocks = <&mcp251x_clock>;
++        interrupt-parent = <&gpio6 16 GPIO_ACTIVE_LOW>;
++        interrupts = <16 IRQ_TYPE_LEVEL_LOW>;
++
++        };
+ };
+ 
+ &uart1 {
+@@ -473,5 +482,14 @@
+ 		gpios = <&gpio1 4 GPIO_ACTIVE_HIGH>;
+ 		status = "disabled";
+ 	};
++        clocks {
++            mcp251x_clock: clock@4{
++                compatible = "fixed-clock";
++                reg = <4>;
++                #clock-cells = <0>;
++                clock-frequency  = <20000000>;
++                clock-output-names = "mcp251x_clock";
++        };
++                };
+ 
+ };

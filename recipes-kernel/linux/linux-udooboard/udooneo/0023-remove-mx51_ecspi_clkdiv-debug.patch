@@ -1,0 +1,14 @@
+Index: git/drivers/spi/spi-imx.c
+===================================================================
+--- git.orig/drivers/spi/spi-imx.c
++++ git/drivers/spi/spi-imx.c
+@@ -276,8 +276,7 @@ static unsigned int mx51_ecspi_clkdiv(un
+ 
+ 	pre = DIV_ROUND_UP(fin, fspi << post) - 1;
+ 
+-	pr_debug("%s: fin: %u, fspi: %u, post: %u, pre: %u\n",
+-			__func__, fin, fspi, post, pre);
++	//pr_debug("%s: fin: %u, fspi: %u, post: %u, pre: %u\n",__func__, fin, fspi, post, pre);
+ 
+ 	/* Resulting frequency for the SCLK line. */
+ 	*fres = (fin / (pre + 1)) >> post;

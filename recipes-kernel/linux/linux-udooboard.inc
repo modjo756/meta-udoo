@@ -36,7 +36,8 @@ SRC_URI_append_udooneo = " \
     ${@base_conditional("ENABLE_CAN_BUS", "1", "file://0001-Enable-FlexCAN-interfaces-for-UDOO-Neo.patch", "", d)} \
     ${@base_conditional("ENABLE_SPI_BUS", "1", "file://0020-udooneo-enable-ecspi2.patch", "", d)} \
     ${@base_conditional("ENABLE_UART6", "1", "file://0021-Enable-Uart6-udooneo.patch", "", d)} \
-    ${@base_conditional("ENABLE_UART6", "1", "file://0022-udooneo-Uart6-dma.patch", "", d)} \
+    ${@base_conditional("ENABLE_MCP2515", "1", "file://0022-add-mcp2551.patch", "", d)} \
+    ${@base_conditional("ENABLE_MCP2515", "1", "file://0023-remove-mx51_ecspi_clkdiv-debug.patch", "", d)} \
 "
 SRC_URI_append_secosbca62 = "file://0001-enable-eth-SA62.patch \
            file://0002-add_external_clock-SA62.patch \
@@ -47,4 +48,5 @@ SRC_URI_append_secosbca62 = "file://0001-enable-eth-SA62.patch \
            file://0007-add_UART5-SA62.patch \
            file://0008-lvds15_changeConf_SA62.patch \
            ${@base_conditional("ENABLE_TOUCH_GOODIX", "1","file://0009-support-Goodix-Touchscreens.patch", "", d)} \
+           ${@base_conditional("ENABLE_ODE_PIN17", "1","file://0010-enableODE-Gpio-17.patch", "", d)} \
 "

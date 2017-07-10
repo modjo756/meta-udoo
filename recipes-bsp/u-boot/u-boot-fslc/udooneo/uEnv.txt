@@ -4,7 +4,7 @@
 # Enable or Disable the Cortex M4 CPU
 # m4_enabled=true|false
 # any other value (or if the variable is not specified) will default to "true"
-#m4_enabled=false
+m4_enabled=false
 
 # Set the screen connected to the board
 # video_output=hdmi|lvds7|lvds15|disabled

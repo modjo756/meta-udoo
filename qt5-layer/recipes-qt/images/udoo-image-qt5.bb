@@ -7,17 +7,19 @@
 # DISTRO_FEATURES_remove = "x11 wayland"
 
 
-DESCRIPTION = "A Qt 5.7.0+ image. Tailored for the UDOO boards"
+DESCRIPTION = "A Qt 5.8.0+ image. Tailored for the UDOO boards"
 
 DEPENDS += "virtual/bootloader"
 
 IMAGE_FEATURES += "splash ssh-server-openssh package-management debug-tweaks dev-pkgs"
 
+PR ?= "r6"
+
 UDOO_TOOLS = " \
     ${@bb.utils.contains("MACHINE_FEATURES", "usbhost", "packagegroup-base-usbhost", "", d)} \
     i2c-tools \
     resize-rootfs \
-    ${@base_conditional("ENABLE_CAN_BUS", "1", "canutils", "", d)} \
+    ${@base_conditional("ENABLE_CAN_BUS", "1", "can-utils libsocketcan", "", d)} \
     minicom \
 "
 
@@ -25,7 +27,6 @@ QT_TOOLS = " \
     qtbase-plugins \
     qtbase-tools \
     qtdeclarative \
-    qtdeclarative-plugins \
     qtdeclarative-tools \
     qtdeclarative-qmlplugins \
     qtmultimedia \
