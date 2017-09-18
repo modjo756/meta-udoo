@@ -9,7 +9,7 @@ SPL_BINARY = "SPL"
 
 # We use WIC for image creation
 WKS_FILE = "udoo-sdcard.wks" 
-IMAGE_FSTYPES = "wic.bz2"
+IMAGE_FSTYPES = "tar.bz2 wic.bz2"
 
 # There is no more boot partition so install the needed files to /boot
 MACHINE_ESSENTIAL_EXTRA_RDEPENDS += " uenv kernel-devicetree"

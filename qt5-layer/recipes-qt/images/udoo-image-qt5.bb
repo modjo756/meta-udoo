@@ -62,6 +62,7 @@ QT_TOOLS = " \
     qtserialbus \
     qtcharts \
     qtquickcontrols \
+    qtquickcontrols-qmlplugins \
     qtquickcontrols2 \
     qtvirtualkeyboard \
     qttools-plugins \
